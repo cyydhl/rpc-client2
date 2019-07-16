@@ -11,12 +11,18 @@ import java.net.Socket;
  * Created by Administrator on 2019/6/22.
  */
 public class RpcNetTransport {
-    private String host;
-    private int port;
-    public RpcNetTransport(String host, int port) {
-        this.host = host;
-        this.port = port;
+//    private String host;
+//    private int port;
+//    public RpcNetTransport(String host, int port) {
+//        this.host = host;
+//        this.port = port;
+//    }
+    private String serviceAddress;
+
+    public RpcNetTransport(String serviceAddress) {
+        this.serviceAddress = serviceAddress;
     }
+
 
     /**
      * 创建socket,发送RpcRequest数据请求
@@ -29,7 +35,8 @@ public class RpcNetTransport {
         ObjectOutputStream objectOutputStream = null;
         Object result = null;
         try {
-            socket = new Socket(host,port);
+            String urls[]=serviceAddress.split(":");
+            socket = new Socket(urls[0],Integer.parseInt(urls[1]));
 
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectOutputStream.writeObject(request);
